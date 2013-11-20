@@ -13,14 +13,13 @@ namespace BigDataSelector
             int bufferSize = 10000;
             int CONST_smallChunkSize = 10 * 1024 * 1024; //10Mb
 
-            string path = @"E:\BigFile\bigfile.txt";
+            string path = @"C:\Users\mcgee\Downloads\BigFilesGenerator\BigFilesGenerator\BigFilesGenerator\bin\Debug\bigfile.txt";
             List<int> buffer = new List<int>(bufferSize);
+            PriorityQueue<int> queue = new PriorityQueue<int>(new ReverseIntComparer());
 
             var lines = File.ReadLines(path);
 
-            int maxValue = 0;
             string maxValueString = "";
-            int indexOfMaxValue = 0;
             long index = 0;
             DateTime start = DateTime.UtcNow;
             int swapsCount = 0;
@@ -29,32 +28,28 @@ namespace BigDataSelector
             {
                 if (index == 0)
                 {
-                    int number = int.Parse(line);
-                    maxValue = number;
-                    maxValueString = maxValue.ToString();
+                    maxValueString = line;
                 }
 
                 if (index < bufferSize)
                 {
                     int number = int.Parse(line);
-                    buffer.Add(number);
 
-                    if (number > maxValue)
+                    if (index > 0 && number > queue.Peek())
                     {
-                        maxValue = number;
-                        maxValueString = maxValue.ToString();
-                        indexOfMaxValue = (int)index;
+                        maxValueString = number.ToString();
                     }
+
+                    queue.Add(number);
 
                 }
                 else if (IsLeftGreater(maxValueString, line))
                 {
-                    buffer[indexOfMaxValue] = int.Parse(line);
+                    queue.Next();
+                    queue.Add(int.Parse(line));
 
-                    Tuple<int, int> maxIndexAndValue = GetMaxIndexAndElement(buffer);
-                    indexOfMaxValue = maxIndexAndValue.Item1;
-                    maxValue = maxIndexAndValue.Item2;
-                    maxValueString = maxValue.ToString();
+                    int newMaxValue = queue.Peek();
+                    maxValueString = newMaxValue.ToString();
 
                     swapsCount++;
                 }
@@ -69,6 +64,8 @@ namespace BigDataSelector
                 }
             }
 
+
+            buffer = queue.ToList();
             buffer.Sort();
 
             string firstElementsPath = "firstElements.txt";
@@ -83,35 +80,6 @@ namespace BigDataSelector
 
             Console.WriteLine("Global time: {0}m", (DateTime.UtcNow - globalStart).TotalMinutes);
             Console.ReadKey();
-        }
-
-        static int ParseInt(string stringValue)
-        {
-            int result = 0;
-
-            for (int i = 0; i < stringValue.Length; i++)
-            {
-                result = result * 10 + (stringValue[i] - '0');
-            }
-
-            return result;
-        }
-
-        static Tuple<int, int> GetMaxIndexAndElement(IList<int> list)
-        {
-            int maxIndex = 0;
-            int maxValue = list[0];
-
-            for (int i = 1; i < list.Count; i++)
-            {
-                if (list[i] > maxValue)
-                {
-                    maxValue = list[i];
-                    maxIndex = i;
-                }
-            }
-
-            return new Tuple<int, int>(maxIndex, maxValue);
         }
 
         static bool IsLeftGreater(string left, string right)
