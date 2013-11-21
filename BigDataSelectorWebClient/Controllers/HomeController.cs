@@ -12,7 +12,7 @@ namespace BigDataSelectorWebClient.Controllers
             return View();
         }
 
-        public ActionResult SelectionInProgress()
+        public ActionResult GetSelectionProgress()
         {
             return View();
         }

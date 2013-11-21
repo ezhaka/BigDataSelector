@@ -13,7 +13,7 @@ namespace BigDataSelector
             int bufferSize = 10000;
             int CONST_smallChunkSize = 10 * 1024 * 1024; //10Mb
 
-            string path = @"C:\Users\mcgee\Downloads\BigFilesGenerator\BigFilesGenerator\BigFilesGenerator\bin\Debug\bigfile.txt";
+            string path = @"E:\BigFile\bigfile.txt";
             List<int> buffer = new List<int>(bufferSize);
             PriorityQueue<int> queue = new PriorityQueue<int>(new ReverseIntComparer());
 
