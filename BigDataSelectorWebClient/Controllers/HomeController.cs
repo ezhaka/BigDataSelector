@@ -1,4 +1,8 @@
 ﻿using System.Web.Mvc;
+using BigDataSelectorWebClient.Models;
+using BigDataSelectorWebClient.Models.BigFileSelector;
+using BigDataSelectorWebClient.Models.TopElementsProvider;
+using BigDataSelectorWebClient.Models.TopElementsProvider.Result;
 
 namespace BigDataSelectorWebClient.Controllers
 {
@@ -7,13 +11,14 @@ namespace BigDataSelectorWebClient.Controllers
         //
         // GET: /Home/
 
-        public ActionResult Index()
+        public ActionResult Index(int pageNumber = 0)
         {
-            return View();
-        }
+            IBigFileSelector bigFileSelector = BigFileSelector.Instance;
+            ICacheProvider cacheProvider = CacheProvider.Instance;
+            TopElementsProvider topElementsProvider = new TopElementsProvider(cacheProvider, bigFileSelector);
 
-        public ActionResult GetSelectionProgress()
-        {
+            this.ViewBag.TopElementsResult = topElementsProvider.GetPage(pageNumber);
+
             return View();
         }
 

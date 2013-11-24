@@ -1,0 +1,45 @@
+﻿@using BigDataSelectorWebClient.Models.TopElementsProvider.Result
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    TopElementsProviderResult topElementsResult = this.ViewBag.TopElementsResult;
+}
+
+@if (topElementsResult is FileNotFoundResult)
+{
+    <h2>Big file not found</h2>
+    <p>Please, specify correct path in Web.config.</p>
+}
+
+@if (topElementsResult is SelectionInProgressResult)
+{
+    var selectionInProgressResult = (SelectionInProgressResult) topElementsResult;
+    
+    <h2>Selection in progress</h2>
+    <p>@selectionInProgressResult.ItemsProcessed items processed</p>
+    <p>@((DateTime.UtcNow - selectionInProgressResult.StartDate).ToString())</p>
+    
+    <script type="text/javascript">
+
+        setTimeout(function() {
+            window.location = window.location;
+        }, 5000);
+
+    </script>
+}
+
+@if (topElementsResult is PageResult)
+{
+    PageResult pageResult = (PageResult)topElementsResult;
+    
+    <ul>
+        @foreach (var page in pageResult.Page)
+        {
+            <li>@page</li>
+        }
+    </ul>
+}

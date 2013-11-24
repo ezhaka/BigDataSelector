@@ -112,12 +112,22 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\PriorityQueue.cs" />
+    <Compile Include="Helpers\ReverseIntComparer.cs" />
+    <Compile Include="Helpers\StringAsNumberComparer.cs" />
+    <Compile Include="Models\BigFileSelector\BigFileSelector.cs" />
+    <Compile Include="Models\BigFileSelector\Result\BigFileSelectorResult.cs" />
+    <Compile Include="Models\BigFileSelector\Result\FileNotFoundResult.cs" />
+    <Compile Include="Models\BigFileSelector\Result\SelectionInProgressResult.cs" />
+    <Compile Include="Models\BigFileSelector\IBigFileSelector.cs" />
+    <Compile Include="Models\BigFileSelector\Result\SelectionIsDoneResult.cs" />
+    <Compile Include="Models\CacheProvider.cs" />
     <Compile Include="Models\ICacheProvider.cs" />
-    <Compile Include="Models\Result\FileNotFoundResult.cs" />
-    <Compile Include="Models\Result\PageResult.cs" />
-    <Compile Include="Models\Result\SelectionInProgressResult.cs" />
-    <Compile Include="Models\Result\TopElementsProviderResult.cs" />
-    <Compile Include="Models\TopElementsProvider.cs" />
+    <Compile Include="Models\TopElementsProvider\Result\FileNotFoundResult.cs" />
+    <Compile Include="Models\TopElementsProvider\Result\PageResult.cs" />
+    <Compile Include="Models\TopElementsProvider\Result\SelectionInProgressResult.cs" />
+    <Compile Include="Models\TopElementsProvider\Result\TopElementsProviderResult.cs" />
+    <Compile Include="Models\TopElementsProvider\TopElementsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -136,11 +146,21 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Error.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
