@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using BigDataSelector;
@@ -7,7 +8,7 @@ namespace BigDataSelectorWebClient.Models
 {
     public class CacheProvider : ICacheProvider
     {
-        private string cachePath = @"c:\wa\cache.txt";
+        private string cachePath = ConfigurationManager.AppSettings["CacheFilePath"];
         private static CacheProvider instance;
         private static object syncRoot = new object();
 

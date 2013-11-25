@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
         private static BigFileSelector instance;
         private static object syncRoot = new object();
 
-        string path = @"C:\wa\bigfile.txt";
+        string path = ConfigurationManager.AppSettings["BigFilePath"];
         List<int> buffer;
         private int bufferSize = 10000;
         private bool inProgress;
