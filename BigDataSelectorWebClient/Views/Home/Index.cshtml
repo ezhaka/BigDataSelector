@@ -12,7 +12,7 @@
 @if (topElementsResult is PageResult)
 {
     <div class="header">
-        <div class="elapsedTime">Elapsed time: @((topElementsResult as PageResult).CalculationTime)</div>
+        <div class="elapsedTime">Elapsed time: @((topElementsResult as PageResult).CalculationTime.ToString(@"hh\:mm\:ss"))</div>
         <div class="paging">
             
             @for (int i = 1; i <= 10; i++)
@@ -47,7 +47,7 @@
 
         <h2>Selection in progress</h2>
         <p><span>@selectionInProgressResult.ItemsProcessed.ToString("N0")</span> items processed</p>
-        <p>@((DateTime.UtcNow - selectionInProgressResult.StartDate).ToString())</p>
+        <p>@((DateTime.UtcNow - selectionInProgressResult.StartDate).ToString(@"hh\:mm\:ss"))</p>
 
         <script type="text/javascript">
 

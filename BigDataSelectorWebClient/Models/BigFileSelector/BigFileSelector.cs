@@ -17,14 +17,14 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
         string path = ConfigurationManager.AppSettings["BigFilePath"];
         List<int> buffer;
         private int bufferSize = 10000;
-        private bool inProgress;
-        private bool isDone;
+        private SelectorState state = SelectorState.NotStarted;
         private DateTime startDate;
+        private TimeSpan elapsedTime;
         long itemsProcessed = 0;
+        private object syncSelectionStart = new object();
 
         private BigFileSelector()
         {
-            int bufferSize = 10000;
             buffer = new List<int>(bufferSize);
         }
 
@@ -51,23 +51,26 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
                 return new FileNotFoundResult();
             }
 
-            if (inProgress)
+            lock (syncSelectionStart)
             {
-                return new SelectionInProgressResult(itemsProcessed, startDate);
+                if (state == SelectorState.NotStarted)
+                {
+                    this.startDate = DateTime.UtcNow;
+                    state = SelectorState.InProgress;
+                    Task.Factory.StartNew(this.StartSelection);
+
+                    return new SelectionInProgressResult(itemsProcessed, startDate);
+                }
             }
 
-            if (!inProgress && !isDone)
+            if (state == SelectorState.Done)
             {
-                this.startDate = DateTime.UtcNow;
-                this.inProgress = true;
-                Task.Factory.StartNew(this.StartSelection);
-
-                return new SelectionInProgressResult(itemsProcessed, startDate);
+                return new SelectionIsDoneResult(this.buffer.Select(i => i.ToString()).ToList(), this.elapsedTime);
             }
 
-            if (isDone)
+            if (state == SelectorState.InProgress)
             {
-                return new SelectionIsDoneResult(this.buffer.Select(i => i.ToString()).ToList(), DateTime.UtcNow - startDate);
+                return new SelectionInProgressResult(itemsProcessed, startDate);
             }
 
             throw new Exception("Unknown BigFileSelectorState");
@@ -114,8 +117,8 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
 
             buffer = queue.ToList();
             buffer.Sort();
-            this.inProgress = false;
-            this.isDone = true;
+            this.elapsedTime = DateTime.UtcNow - this.startDate;
+            this.state = SelectorState.Done;
         }
     }
 }

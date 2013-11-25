@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BigDataSelector
@@ -9,7 +10,7 @@ namespace BigDataSelector
 
         public static int GetPagesCount(IEnumerable<string> values)
         {
-            return values.Count() % itemsPerPage;
+            return (int)Math.Ceiling((decimal)values.Count() / itemsPerPage);
         }
 
         public static IList<string> GetPage(IEnumerable<string> values, int pageNumber)
