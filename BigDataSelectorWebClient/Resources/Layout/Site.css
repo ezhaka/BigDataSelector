@@ -1,0 +1,40 @@
+﻿body, ul
+{
+    margin: 0;
+}
+
+.header
+{
+    background-color: #fff;
+    padding: 8px 16px;
+    position: fixed;
+    border-bottom: 1px solid #aaa;
+    width: 100%;
+}
+
+.page
+{
+    padding: 0 15px;
+}
+
+.content
+{
+    padding-top: 50px;
+}
+
+.paging .pagePointer
+{
+    line-height: 21px;
+    display: inline;
+    font-size: 18px;
+}
+
+.paging .pagePointer .active
+{
+    font-weight: bold;
+}
+
+.paging .pagePointer + .pagePointer
+{
+    padding-left: 10px;
+}

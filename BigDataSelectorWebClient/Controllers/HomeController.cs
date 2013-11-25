@@ -18,6 +18,7 @@ namespace BigDataSelectorWebClient.Controllers
             TopElementsProvider topElementsProvider = new TopElementsProvider(cacheProvider, bigFileSelector);
 
             this.ViewBag.TopElementsResult = topElementsProvider.GetPage(pageNumber);
+            this.ViewBag.CurrentPageNumber = pageNumber;
 
             return View();
         }
