@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using BigDataSelector;
 
 namespace BigDataSelectorWebClient.Models
 {
@@ -32,26 +32,30 @@ namespace BigDataSelectorWebClient.Models
         {
         }
 
-        public bool TryGetPage(int pageNumber, out IList<string> result)
+        public bool TryGetSelectedValues(out IEnumerable<string> selectedValues, out TimeSpan calculationTime)
         {
             if (!File.Exists(this.cachePath))
             {
-                result = null;
+                selectedValues = null;
+                calculationTime = default(TimeSpan);
                 return false;
             }
 
-            IEnumerable<string> line = File.ReadLines(this.cachePath);
-            result = line.Skip(pageNumber * 1000).Take(1000).ToList();
+            IEnumerable<string> lines = File.ReadLines(this.cachePath);
+            calculationTime = TimeSpan.Parse(lines.First());
+            selectedValues = lines.Skip(1);
             return true;
         }
 
-        public void CacheResult(IList<string> topStrings)
+        public void CacheResult(IList<string> topStrings, TimeSpan calculationTime)
         {
             using (StreamWriter writer = new StreamWriter(this.cachePath))
             {
-                foreach (var number in topStrings)
+                writer.WriteLine(calculationTime);
+
+                foreach (var value in topStrings)
                 {
-                    writer.WriteLine(number);
+                    writer.WriteLine(value);
                 }
             }
         }

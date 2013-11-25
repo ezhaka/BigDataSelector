@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using BigDataSelector;
 using BigDataSelectorWebClient.Models.BigFileSelector;
 using BigDataSelectorWebClient.Models.TopElementsProvider.Result;
 
@@ -19,14 +19,17 @@ namespace BigDataSelectorWebClient.Models.TopElementsProvider
 
         public TopElementsProviderResult GetPage(int pageNumber)
         {
-            IList<string> page;
-
-            if (this.cacheProvider.TryGetPage(pageNumber, out page))
+            if (pageNumber < 1)
             {
-                return new PageResult
-                {
-                    Page = page
-                };
+                return new InvalidPageNumberResult();
+            }
+
+            IEnumerable<string> selectedValues;
+            TimeSpan calculationTime;
+
+            if (this.cacheProvider.TryGetSelectedValues(out selectedValues, out calculationTime))
+            {
+                return this.GetPageResult(selectedValues, calculationTime, pageNumber);
             }
 
             var bigFileSelectorResult = this.bigFileSelector.SelectTopElements();
@@ -48,17 +51,24 @@ namespace BigDataSelectorWebClient.Models.TopElementsProvider
             if (bigFileSelectorResult is BigFileSelector.Result.SelectionIsDoneResult)
             {
                 var selectionIsDoneResult = (BigFileSelector.Result.SelectionIsDoneResult) bigFileSelectorResult;
+                this.cacheProvider.CacheResult(selectionIsDoneResult.SelectedValues, selectionIsDoneResult.CalculationTime);
 
-                this.cacheProvider.CacheResult(selectionIsDoneResult.TopStrings);
-                const int itemsPerPage = 1000;
-
-                return new PageResult
-                {
-                    Page = selectionIsDoneResult.TopStrings.Skip(pageNumber * itemsPerPage).Take(itemsPerPage).ToList()
-                };
+                return new PageResult(selectionIsDoneResult.SelectedValues, selectionIsDoneResult.CalculationTime);
             }
 
             throw new Exception("Unknown BigFileSelector result");
+        }
+
+        private TopElementsProviderResult GetPageResult(IEnumerable<string> selectedValues, TimeSpan calculationTime, int pageNumber)
+        {
+            int pagesCount = PageManager.GetPagesCount(selectedValues);
+
+            if (pagesCount < pageNumber)
+            {
+                return new InvalidPageNumberResult();
+            }
+
+            return new PageResult(PageManager.GetPage(selectedValues, pageNumber), calculationTime);
         }
     }
 }

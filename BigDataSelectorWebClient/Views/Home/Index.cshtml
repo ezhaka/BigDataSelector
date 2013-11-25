@@ -9,6 +9,30 @@
     TopElementsProviderResult topElementsResult = this.ViewBag.TopElementsResult;
 }
 
+@if (topElementsResult is PageResult)
+{
+    <div class="header">
+        <div class="elapsedTime">Elapsed time: @((topElementsResult as PageResult).CalculationTime)</div>
+        <div class="paging">
+            
+            @for (int i = 1; i <= 10; i++)
+            {
+                <div class="pagePointer">
+                    @if (i == this.ViewBag.CurrentPageNumber)
+                    {
+                        <span class="active">@i</span>
+                    }
+                    else
+                    {
+                        @Html.RouteLink(i.ToString(), new {controller = "Home", action = "Index", pageNumber = i})
+                    }
+                </div>
+            }
+
+        </div>
+    </div>
+}
+
 <div class="page">
 
     @if (topElementsResult is FileNotFoundResult)
@@ -22,7 +46,7 @@
         var selectionInProgressResult = (SelectionInProgressResult)topElementsResult;
 
         <h2>Selection in progress</h2>
-        <p>@selectionInProgressResult.ItemsProcessed items processed</p>
+        <p><span>@selectionInProgressResult.ItemsProcessed.ToString("N0")</span> items processed</p>
         <p>@((DateTime.UtcNow - selectionInProgressResult.StartDate).ToString())</p>
 
         <script type="text/javascript">
@@ -38,24 +62,6 @@
     {
         PageResult pageResult = (PageResult)topElementsResult;
 
-        <div class="header">
-            <div class="paging">
-                @for (int i = 0; i < 10; i++)
-                {
-                    <div class="pagePointer">
-                        @if (i == this.ViewBag.CurrentPageNumber)
-                        {
-                            <span class="active">@(i + 1)</span>
-                        }
-                        else
-                        {
-                            @Html.RouteLink((i + 1).ToString(), new { controller = "Home", action = "Index", pageNumber = i })
-                        }
-                    </div>
-                }
-            </div>
-        </div>
-
         <div class="content">
             <ul class="numbersList">
                 @foreach (var page in pageResult.Page)
@@ -64,6 +70,11 @@
                 }
             </ul>
         </div>
+    }
+    
+    @if (topElementsResult is InvalidPageNumberResult)
+    {
+        <p>Invalid page number</p>
     }
 
 </div>

@@ -67,7 +67,7 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
 
             if (isDone)
             {
-                return new SelectionIsDoneResult(this.buffer.Select(i => i.ToString()).ToList());
+                return new SelectionIsDoneResult(this.buffer.Select(i => i.ToString()).ToList(), DateTime.UtcNow - startDate);
             }
 
             throw new Exception("Unknown BigFileSelectorState");

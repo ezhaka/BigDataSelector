@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BigDataSelectorWebClient.Models
 {
     public interface ICacheProvider
     {
-        bool TryGetPage(int pageNumber, out IList<string> result);
-        void CacheResult(IList<string> topStrings);
+        bool TryGetSelectedValues(out IEnumerable<string> selectedValues, out TimeSpan calculationTime);
+        void CacheResult(IList<string> topStrings, TimeSpan calculationTime);
     }
 }

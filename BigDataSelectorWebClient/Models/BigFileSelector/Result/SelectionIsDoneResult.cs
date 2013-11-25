@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BigDataSelectorWebClient.Models.BigFileSelector.Result
 {
     public class SelectionIsDoneResult : BigFileSelectorResult
     {
-        public SelectionIsDoneResult(IList<string> topStrings)
+        public SelectionIsDoneResult(IList<string> selectedValues, TimeSpan calculationTime)
         {
-            TopStrings = topStrings;
+            SelectedValues = selectedValues;
+            CalculationTime = calculationTime;
         }
 
-        public IList<string> TopStrings { get; set; }
+        public IList<string> SelectedValues { get; set; }
+        public TimeSpan CalculationTime { get; set; }
     }
 }
