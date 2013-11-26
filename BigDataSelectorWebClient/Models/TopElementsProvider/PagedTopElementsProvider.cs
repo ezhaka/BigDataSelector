@@ -60,7 +60,7 @@ namespace BigDataSelectorWebClient.Models.TopElementsProvider
                 return new InvalidPageNumberResult();
             }
 
-            return new PageResult(PageManager.GetPage(selectedValues, pageNumber), calculationTime);
+            return new PageResult(PageManager.GetPage(selectedValues, pageNumber), calculationTime, pagesCount);
         }
     }
 }

@@ -11,11 +11,13 @@
 
 @if (topElementsResult is PageResult)
 {
+    var pageResult = topElementsResult as PageResult;
+    
     <div class="header">
-        <div class="elapsedTime">Elapsed time: @((topElementsResult as PageResult).CalculationTime.ToString(@"hh\:mm\:ss"))</div>
+        <div class="elapsedTime">Elapsed time: @(pageResult.CalculationTime.ToString(@"hh\:mm\:ss"))</div>
         <div class="paging">
             
-            @for (int i = 1; i <= 10; i++)
+            @for (int i = 1; i <= pageResult.PagesCount; i++)
             {
                 <div class="pagePointer">
                     @if (i == this.ViewBag.CurrentPageNumber)
