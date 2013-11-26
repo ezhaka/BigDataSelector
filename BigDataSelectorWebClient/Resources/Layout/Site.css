@@ -12,14 +12,19 @@
     width: 100%;
 }
 
+.header .elapsedTime
+{
+    line-height: 20px;
+}
+
 .page
 {
     padding: 0 15px;
 }
 
-.content
+.page .content
 {
-    padding-top: 50px;
+    padding-top: 70px;
 }
 
 .paging .pagePointer
