@@ -5,13 +5,13 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector.Result
 {
     public class SelectionIsDoneResult : BigFileSelectorResult
     {
-        public SelectionIsDoneResult(IList<string> selectedValues, TimeSpan calculationTime)
+        public SelectionIsDoneResult(IEnumerable<string> selectedValues, TimeSpan calculationTime)
         {
             SelectedValues = selectedValues;
             CalculationTime = calculationTime;
         }
 
-        public IList<string> SelectedValues { get; set; }
+        public IEnumerable<string> SelectedValues { get; set; }
         public TimeSpan CalculationTime { get; set; }
     }
 }

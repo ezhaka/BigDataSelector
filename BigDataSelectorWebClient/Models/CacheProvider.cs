@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace BigDataSelectorWebClient.Models
 {
@@ -11,6 +12,8 @@ namespace BigDataSelectorWebClient.Models
         private string cachePath = ConfigurationManager.AppSettings["CacheFilePath"];
         private static CacheProvider instance;
         private static object syncRoot = new object();
+
+        private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
 
         public static CacheProvider Instance
         {
@@ -34,29 +37,47 @@ namespace BigDataSelectorWebClient.Models
 
         public bool TryGetSelectedValues(out IEnumerable<string> selectedValues, out TimeSpan calculationTime)
         {
-            if (!File.Exists(this.cachePath))
-            {
-                selectedValues = null;
-                calculationTime = default(TimeSpan);
-                return false;
-            }
+            this.cacheLock.EnterReadLock();
 
-            IEnumerable<string> lines = File.ReadLines(this.cachePath);
-            calculationTime = TimeSpan.Parse(lines.First());
-            selectedValues = lines.Skip(1);
-            return true;
+            try
+            {
+                if (!File.Exists(this.cachePath))
+                {
+                    selectedValues = null;
+                    calculationTime = default(TimeSpan);
+                    return false;
+                }
+            
+                IEnumerable<string> lines = File.ReadLines(this.cachePath);
+                calculationTime = TimeSpan.Parse(lines.First());
+                selectedValues = lines.Skip(1);
+                return true;
+            }
+            finally
+            {
+                this.cacheLock.ExitReadLock();
+            }
         }
 
         public void CacheResult(IList<string> topStrings, TimeSpan calculationTime)
         {
-            using (StreamWriter writer = new StreamWriter(this.cachePath))
-            {
-                writer.WriteLine(calculationTime);
+            this.cacheLock.EnterWriteLock();
 
-                foreach (var value in topStrings)
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(this.cachePath))
                 {
-                    writer.WriteLine(value);
+                    writer.WriteLine(calculationTime);
+
+                    foreach (var value in topStrings)
+                    {
+                        writer.WriteLine(value);
+                    }
                 }
+            }
+            finally
+            {
+                this.cacheLock.ExitWriteLock();
             }
         }
     }

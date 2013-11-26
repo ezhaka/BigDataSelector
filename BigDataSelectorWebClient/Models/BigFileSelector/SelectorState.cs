@@ -3,8 +3,7 @@
     public enum SelectorState
     {
         Undefined,
-        NotStarted,
-        InProgress,
-        Done
+        Idle,
+        InProgress
     }
 }

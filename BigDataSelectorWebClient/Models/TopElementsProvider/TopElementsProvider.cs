@@ -8,12 +8,10 @@ namespace BigDataSelectorWebClient.Models.TopElementsProvider
 {
     public class TopElementsProvider
     {
-        private readonly ICacheProvider cacheProvider;
         private readonly IBigFileSelector bigFileSelector;
 
-        public TopElementsProvider(ICacheProvider cacheProvider, IBigFileSelector bigFileSelector)
+        public TopElementsProvider(IBigFileSelector bigFileSelector)
         {
-            this.cacheProvider = cacheProvider;
             this.bigFileSelector = bigFileSelector;
         }
 
@@ -22,14 +20,6 @@ namespace BigDataSelectorWebClient.Models.TopElementsProvider
             if (pageNumber < 1)
             {
                 return new InvalidPageNumberResult();
-            }
-
-            IEnumerable<string> selectedValues;
-            TimeSpan calculationTime;
-
-            if (this.cacheProvider.TryGetSelectedValues(out selectedValues, out calculationTime))
-            {
-                return this.GetPageResult(selectedValues, calculationTime, pageNumber);
             }
 
             var bigFileSelectorResult = this.bigFileSelector.SelectTopElements();
@@ -51,12 +41,14 @@ namespace BigDataSelectorWebClient.Models.TopElementsProvider
             if (bigFileSelectorResult is BigFileSelector.Result.SelectionIsDoneResult)
             {
                 var selectionIsDoneResult = (BigFileSelector.Result.SelectionIsDoneResult) bigFileSelectorResult;
-                this.cacheProvider.CacheResult(selectionIsDoneResult.SelectedValues, selectionIsDoneResult.CalculationTime);
-
-                return new PageResult(selectionIsDoneResult.SelectedValues, selectionIsDoneResult.CalculationTime);
+                
+                return this.GetPageResult(
+                    selectionIsDoneResult.SelectedValues, 
+                    selectionIsDoneResult.CalculationTime, 
+                    pageNumber);
             }
 
-            throw new Exception("Unknown BigFileSelector result");
+            throw new Exception("Unknown BigFileSelectorManager result");
         }
 
         private TopElementsProviderResult GetPageResult(IEnumerable<string> selectedValues, TimeSpan calculationTime, int pageNumber)

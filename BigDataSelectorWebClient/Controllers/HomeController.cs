@@ -12,9 +12,8 @@ namespace BigDataSelectorWebClient.Controllers
 
         public ActionResult Index(int pageNumber = 1)
         {
-            IBigFileSelector bigFileSelector = BigFileSelector.Instance;
-            ICacheProvider cacheProvider = CacheProvider.Instance;
-            TopElementsProvider topElementsProvider = new TopElementsProvider(cacheProvider, bigFileSelector);
+            IBigFileSelector bigFileSelector = BigFileSelectorManager.Instance;
+            TopElementsProvider topElementsProvider = new TopElementsProvider(bigFileSelector);
 
             this.ViewBag.TopElementsResult = topElementsProvider.GetPage(pageNumber);
             this.ViewBag.CurrentPageNumber = pageNumber;
