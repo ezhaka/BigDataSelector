@@ -51,7 +51,7 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
             {
                 IEnumerable<string> selectedValues;
                 TimeSpan calculationTime;
-                ICacheProvider cacheProvider = CacheProvider.Instance;
+                ICacheProvider cacheProvider = new CacheProvider();
 
                 if (cacheProvider.TryGetSelectedValues(out selectedValues, out calculationTime))
                 {
@@ -67,9 +67,10 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
                 {
                     if (state == SelectorState.Idle)
                     {
+                        this.startDate = DateTime.UtcNow;
                         state = SelectorState.InProgress;
-                        this.selector = new TopElementsSelector();
 
+                        this.selector = new TopElementsSelector();
                         Task.Factory.StartNew(this.StartSelection);
 
                         return new SelectionInProgressResult(this.selector.ItemsProcessed, startDate);
@@ -91,8 +92,6 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
 
         private void StartSelection()
         {
-            this.startDate = DateTime.UtcNow;
-
             IEnumerable<string> lines = File.ReadLines(path);
             IList<int> result = this.selector.Select(lines, bufferSize);
 
@@ -100,10 +99,11 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
 
             try
             {
-                ICacheProvider cacheProvider = CacheProvider.Instance;
+                ICacheProvider cacheProvider = new CacheProvider();
                 cacheProvider.CacheResult(result.Select(i => i.ToString()).ToList(), DateTime.UtcNow - this.startDate);
 
-                this.state = SelectorState.Idle; 
+                this.state = SelectorState.Idle;
+                this.selector = null;
             }
             finally
             {
