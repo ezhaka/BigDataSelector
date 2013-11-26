@@ -12,17 +12,18 @@
     width: 100%;
 }
 
-.header .elapsedTime
-{
-    line-height: 20px;
-}
-
 .page
 {
     padding: 0 15px;
 }
 
-.page .content
+.page ul 
+{
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+.content
 {
     padding-top: 70px;
 }

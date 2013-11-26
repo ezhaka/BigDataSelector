@@ -78,6 +78,7 @@
     <Compile Include="Models\BigFileSelector\Result\SelectionInProgressResult.cs" />
     <Compile Include="Models\BigFileSelector\IBigFileSelector.cs" />
     <Compile Include="Models\BigFileSelector\Result\SelectionIsDoneResult.cs" />
+    <Compile Include="Models\BigFileSelector\SelectorState.cs" />
     <Compile Include="Models\CacheProvider.cs" />
     <Compile Include="Models\ICacheProvider.cs" />
     <Compile Include="Models\TopElementsProvider\Result\FileNotFoundResult.cs" />
