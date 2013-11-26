@@ -6,14 +6,26 @@ namespace BigDataSelector
     {
         public int Compare(string left, string right)
         {
-            if (right.Length > left.Length)
+            if (left[0] == '-' && right[0] != '-')
             {
                 return -1;
             }
 
-            if (left.Length > right.Length)
+            if (left[0] != '-' && right[0] == '-')
             {
                 return 1;
+            }
+
+            bool bothNegative = left[0] == '-' && right[0] == '-';
+
+            if (right.Length > left.Length)
+            {
+                return bothNegative  ? 1 : - 1;
+            }
+
+            if (left.Length > right.Length)
+            {
+                return bothNegative ? -1 : 1;
             }
 
             for (int i = 0; i < left.Length; i++)
@@ -23,12 +35,12 @@ namespace BigDataSelector
 
                 if (leftChar > rightChar)
                 {
-                    return 1;
+                    return bothNegative ? -1 : 1;
                 }
 
                 if (rightChar > leftChar)
                 {
-                    return -1;
+                    return bothNegative ? 1 : -1;
                 }
             }
 

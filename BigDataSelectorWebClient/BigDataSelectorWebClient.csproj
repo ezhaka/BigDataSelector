@@ -90,7 +90,7 @@
     <Compile Include="Models\TopElementsProvider\Result\PageResult.cs" />
     <Compile Include="Models\TopElementsProvider\Result\SelectionInProgressResult.cs" />
     <Compile Include="Models\TopElementsProvider\Result\TopElementsProviderResult.cs" />
-    <Compile Include="Models\TopElementsProvider\TopElementsProvider.cs" />
+    <Compile Include="Models\TopElementsProvider\PagedTopElementsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

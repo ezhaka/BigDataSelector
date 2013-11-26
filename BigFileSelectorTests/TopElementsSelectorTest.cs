@@ -59,7 +59,7 @@ namespace BigFileSelectorTests
             Assert.AreEqual(-9, result[1]);
             Assert.AreEqual(-8, result[2]);
             Assert.AreEqual(-3, result[3]);
-            Assert.AreEqual(0, result[4]);
+            Assert.AreEqual(1, result[4]);
         }
     }
 }

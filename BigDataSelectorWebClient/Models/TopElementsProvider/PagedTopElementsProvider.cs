@@ -6,11 +6,11 @@ using BigDataSelectorWebClient.Models.TopElementsProvider.Result;
 
 namespace BigDataSelectorWebClient.Models.TopElementsProvider
 {
-    public class TopElementsProvider
+    public class PagedTopElementsProvider
     {
         private readonly IBigFileSelector bigFileSelector;
 
-        public TopElementsProvider(IBigFileSelector bigFileSelector)
+        public PagedTopElementsProvider(IBigFileSelector bigFileSelector)
         {
             this.bigFileSelector = bigFileSelector;
         }
