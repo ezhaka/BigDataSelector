@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BigDataSelector
+namespace BigDataSelectorWebClient.Helpers
 {
     public class PageManager
     {

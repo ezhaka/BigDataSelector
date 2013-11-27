@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BigDataSelector
+namespace BigDataSelectorWebClient.Helpers
 {
     public class StringAsNumberComparer : IComparer<string>
     {

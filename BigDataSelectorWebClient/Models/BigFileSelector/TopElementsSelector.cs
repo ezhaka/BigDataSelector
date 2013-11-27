@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BigDataSelector;
+using BigDataSelectorWebClient.Helpers;
 
 namespace BigDataSelectorWebClient.Models.BigFileSelector
 {

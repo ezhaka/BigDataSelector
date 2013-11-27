@@ -2,7 +2,7 @@
 
 namespace BigDataSelectorWebClient.Models.BigFileSelector
 {
-    public interface IBigFileSelector
+    public interface IBigFileSelectorManager
     {
         BigFileSelectorResult SelectTopElements();
     }

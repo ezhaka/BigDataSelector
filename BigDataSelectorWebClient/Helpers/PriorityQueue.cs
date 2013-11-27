@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace BigDataSelector
+namespace BigDataSelectorWebClient.Helpers
 {
     /// <summary>Implements a priority queue of T, where T has an ordering.</summary>
     /// Elements may be added to the queue in any order, but when we pull
