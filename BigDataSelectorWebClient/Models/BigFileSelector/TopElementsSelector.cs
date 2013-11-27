@@ -39,7 +39,6 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
                     }
 
                     queue.Add(number);
-
                 }
                 else if (stringComparer.Compare(maxValueString, item) > 0) // string comparison is much more faster than int.Parse
                 {

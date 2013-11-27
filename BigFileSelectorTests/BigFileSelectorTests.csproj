@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="TopElementsSelectorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PriorityQueueTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BigDataSelectorWebClient\BigDataSelectorWebClient.csproj">
