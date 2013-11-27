@@ -1,6 +1,6 @@
 ﻿namespace BigDataSelectorWebClient.Models.BigFileSelector
 {
-    public enum SelectorState
+    public enum SelectorManagerState
     {
         Undefined,
         Idle,
