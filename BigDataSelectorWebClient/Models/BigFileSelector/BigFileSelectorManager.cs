@@ -9,17 +9,17 @@ using BigDataSelectorWebClient.Models.BigFileSelector.Result;
 
 namespace BigDataSelectorWebClient.Models.BigFileSelector
 {
-    public class BigFileSelectorManager : IBigFileSelector
+    public class BigFileSelectorManager : IBigFileSelectorManager
     {
         private static BigFileSelectorManager instance;
-        private static object syncRoot = new object();
+        private static readonly object syncRoot = new object();
 
-        private ReaderWriterLockSlim doneSelectionLock = new ReaderWriterLockSlim();
-        private object syncSelectionStart = new object();
+        private readonly ReaderWriterLockSlim doneSelectionLock = new ReaderWriterLockSlim();
+        private readonly object syncSelectionStart = new object();
 
-        string path = ConfigurationManager.AppSettings["BigFilePath"];
-        private int bufferSize = 10000;
-        private SelectorState state = SelectorState.Idle;
+        readonly string path = ConfigurationManager.AppSettings["BigFilePath"];
+        private const int bufferSize = 10000;
+        private SelectorManagerState state = SelectorManagerState.Idle;
         private DateTime startDate;
         private TopElementsSelector selector;
 
@@ -65,10 +65,10 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
 
                 lock (syncSelectionStart)
                 {
-                    if (state == SelectorState.Idle)
+                    if (state == SelectorManagerState.Idle)
                     {
                         this.startDate = DateTime.UtcNow;
-                        state = SelectorState.InProgress;
+                        state = SelectorManagerState.InProgress;
 
                         this.selector = new TopElementsSelector();
                         Task.Factory.StartNew(this.StartSelection);
@@ -77,7 +77,7 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
                     }
                 }
 
-                if (state == SelectorState.InProgress)
+                if (state == SelectorManagerState.InProgress)
                 {
                     return new SelectionInProgressResult(this.selector.ItemsProcessed, startDate);
                 }
@@ -102,7 +102,7 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
                 ICacheProvider cacheProvider = new CacheProvider();
                 cacheProvider.CacheResult(result.Select(i => i.ToString()).ToList(), DateTime.UtcNow - this.startDate);
 
-                this.state = SelectorState.Idle;
+                this.state = SelectorManagerState.Idle;
                 this.selector = null;
             }
             finally

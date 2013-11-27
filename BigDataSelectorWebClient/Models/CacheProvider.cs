@@ -8,7 +8,7 @@ namespace BigDataSelectorWebClient.Models
 {
     public class CacheProvider : ICacheProvider
     {
-        private string cachePath = ConfigurationManager.AppSettings["CacheFilePath"];
+        private readonly string cachePath = ConfigurationManager.AppSettings["CacheFilePath"];
 
         public bool TryGetSelectedValues(out IEnumerable<string> selectedValues, out TimeSpan calculationTime)
         {

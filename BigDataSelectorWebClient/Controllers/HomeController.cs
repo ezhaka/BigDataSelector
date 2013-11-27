@@ -13,15 +13,14 @@ namespace BigDataSelectorWebClient.Controllers
 
         public ActionResult Index(int pageNumber = 1)
         {
-            IBigFileSelector bigFileSelector = BigFileSelectorManager.Instance;
-
+            IBigFileSelectorManager bigFileSelectorManager = BigFileSelectorManager.Instance;
 
             if (pageNumber < 1)
             {
                 return View("InvalidPageNumber");
             }
 
-            var bigFileSelectorResult = bigFileSelector.SelectTopElements();
+            var bigFileSelectorResult = bigFileSelectorManager.SelectTopElements();
 
             if (bigFileSelectorResult is FileNotFoundResult)
             {
