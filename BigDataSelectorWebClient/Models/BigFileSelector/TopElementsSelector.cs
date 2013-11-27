@@ -17,7 +17,7 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
 
         public IList<int> Select(IEnumerable<string> items, int count)
         {
-            PriorityQueue<int> queue = new PriorityQueue<int>(new ReverseIntComparer());
+            PriorityQueue<int> queue = new PriorityQueue<int>(new ReversedIntComparer());
             StringAsNumberComparer stringComparer = new StringAsNumberComparer();
             string maxValueString = "";
             itemsProcessed = 0;

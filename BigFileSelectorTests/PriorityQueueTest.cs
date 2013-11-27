@@ -51,5 +51,32 @@ namespace BigFileSelectorTests
                 Assert.AreEqual(expected[i], priorityQueue.Next());
             }
         }
+
+        [TestMethod]
+        public void ReversedRandomValues()
+        {
+            ReversedIntComparer reversedIntComparer = new ReversedIntComparer();
+            PriorityQueue<int> priorityQueue = new PriorityQueue<int>(reversedIntComparer);
+
+            Random random = new Random();
+            List<int> expected = new List<int>();
+            var count = 1000;
+
+            for (int i = 0; i < count; i++)
+            {
+                var value = random.Next();
+
+                priorityQueue.Add(value);
+                expected.Add(value);
+            }
+
+            expected.Sort();
+            expected.Reverse();
+
+            for (int i = 0; i < count; i++)
+            {
+                Assert.AreEqual(expected[i], priorityQueue.Next());
+            }
+        }
     }
 }

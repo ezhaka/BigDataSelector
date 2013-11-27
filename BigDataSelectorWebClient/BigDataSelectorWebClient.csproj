@@ -73,7 +73,7 @@
     </Compile>
     <Compile Include="Helpers\PageManager.cs" />
     <Compile Include="Helpers\PriorityQueue.cs" />
-    <Compile Include="Helpers\ReverseIntComparer.cs" />
+    <Compile Include="Helpers\ReversedIntComparer.cs" />
     <Compile Include="Helpers\StringAsNumberComparer.cs" />
     <Compile Include="Models\BigFileSelector\TopElementsSelector.cs" />
     <Compile Include="Models\BigFileSelector\BigFileSelectorManager.cs" />

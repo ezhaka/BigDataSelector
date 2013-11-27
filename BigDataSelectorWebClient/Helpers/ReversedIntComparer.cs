@@ -2,7 +2,7 @@
 
 namespace BigDataSelectorWebClient.Helpers
 {
-    public class ReverseIntComparer : IComparer<int>
+    public class ReversedIntComparer : IComparer<int>
     {
         public int Compare(int x, int y)
         {
