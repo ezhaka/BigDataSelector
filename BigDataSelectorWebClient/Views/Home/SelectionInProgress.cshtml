@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Selection in progress";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Selection in progress</h2>
+<p><span>@this.ViewBag.ItemsProcessed.ToString("N0")</span> items processed</p>
+<p>@((DateTime.UtcNow - this.ViewBag.StartDate).ToString(@"hh\:mm\:ss"))</p>
+
+<script type="text/javascript">
+
+    setTimeout(function () {
+        window.location = window.location;
+    }, 5000);
+
+</script>
+

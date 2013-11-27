@@ -6,9 +6,12 @@
     <title>@ViewBag.Title</title>
     <link href="/Resources/Layout/Site.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
-    @RenderBody()
+    <body>
+        
+        @RenderSection("ExtraBodyContent", required: false)
 
-    @RenderSection("scripts", required: false)
-</body>
+        <div class="page">
+            @RenderBody()
+        </div>
+    </body>
 </html>

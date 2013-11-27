@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section ExtraBodyContent
+{
+    <div class="header">
+        <div class="elapsedTime">Elapsed time: @(this.ViewBag.CalculationTime.ToString(@"hh\:mm\:ss"))</div>
+        <div class="paging">
+
+            @for (int i = 1; i <= this.ViewBag.PagesCount; i++)
+            {
+                <div class="pagePointer">
+                    @if (i == this.ViewBag.CurrentPageNumber)
+                    {
+                        <span class="active">@i</span>
+                    }
+                    else
+                    {
+                        @Html.RouteLink(i.ToString(), new { controller = "Home", action = "Index", pageNumber = i })
+                    }
+                </div>
+            }
+
+        </div>
+    </div>
+}
+
+<div class="content">
+    <ul class="numbersList">
+        @foreach (var page in this.ViewBag.SelectedValues)
+        {
+            <li>@page</li>
+        }
+    </ul>
+</div>
+

@@ -85,12 +85,6 @@
     <Compile Include="Models\BigFileSelector\SelectorState.cs" />
     <Compile Include="Models\CacheProvider.cs" />
     <Compile Include="Models\ICacheProvider.cs" />
-    <Compile Include="Models\TopElementsProvider\Result\FileNotFoundResult.cs" />
-    <Compile Include="Models\TopElementsProvider\Result\InvalidPageNumberResult.cs" />
-    <Compile Include="Models\TopElementsProvider\Result\PageResult.cs" />
-    <Compile Include="Models\TopElementsProvider\Result\SelectionInProgressResult.cs" />
-    <Compile Include="Models\TopElementsProvider\Result\TopElementsProviderResult.cs" />
-    <Compile Include="Models\TopElementsProvider\PagedTopElementsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -124,7 +118,16 @@
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Page.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\FileNotFound.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\SelectionInProgress.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\InvalidPageNumber.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
