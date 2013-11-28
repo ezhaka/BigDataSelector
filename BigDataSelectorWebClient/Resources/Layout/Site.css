@@ -15,35 +15,35 @@
     box-shadow: 0px 1px 3px rgba(50, 50, 50, 0.15);
 }
 
-.page
-{
-    padding: 0 15px;
-}
-
-.page ul 
-{
-    list-style-type: none;
-    padding-left: 10px;
-}
-
-.content
-{
-    padding-top: 70px;
-}
-
-.paging .pagePointer
+.header .paging .pagePointer
 {
     line-height: 21px;
     display: inline;
     font-size: 18px;
 }
 
-.paging .pagePointer .active
+.header .paging .pagePointer .active
 {
     font-weight: bold;
 }
 
-.paging .pagePointer + .pagePointer
+.header .paging .pagePointer + .pagePointer
 {
     padding-left: 10px;
+}
+
+.page
+{
+    padding: 0 15px;
+}
+
+.page ul.numbersList
+{
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+.page .content
+{
+    padding-top: 70px;
 }
