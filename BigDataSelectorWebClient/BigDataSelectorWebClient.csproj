@@ -84,7 +84,9 @@
     <Compile Include="Models\BigFileSelector\Result\SelectionIsDoneResult.cs" />
     <Compile Include="Models\BigFileSelector\SelectorManagerState.cs" />
     <Compile Include="Models\CacheProvider.cs" />
+    <Compile Include="Models\DataProvider.cs" />
     <Compile Include="Models\ICacheProvider.cs" />
+    <Compile Include="Models\IDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

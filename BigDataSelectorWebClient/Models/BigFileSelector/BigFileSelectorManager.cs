@@ -17,7 +17,6 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
         private readonly ReaderWriterLockSlim doneSelectionLock = new ReaderWriterLockSlim();
         private readonly object syncSelectionStart = new object();
 
-        readonly string path = ConfigurationManager.AppSettings["BigFilePath"];
         private const int bufferSize = 10000;
         private SelectorManagerState state = SelectorManagerState.Idle;
         private DateTime startDate;
@@ -58,7 +57,9 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
                     return new SelectionIsDoneResult(selectedValues, calculationTime);
                 }
 
-                if (!File.Exists(path))
+                IDataProvider dataProvider = new DataProvider();
+
+                if (!dataProvider.IsFileExists())
                 {
                     return new FileNotFoundResult();
                 }
@@ -71,7 +72,8 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
                         state = SelectorManagerState.InProgress;
 
                         this.selector = new TopElementsSelector();
-                        Task.Factory.StartNew(this.StartSelection);
+                        IEnumerable<string> data = dataProvider.GetData();
+                        Task.Factory.StartNew(() => this.StartSelection(data));
 
                         return new SelectionInProgressResult(this.selector.ItemsProcessed, startDate);
                     }
@@ -90,9 +92,8 @@ namespace BigDataSelectorWebClient.Models.BigFileSelector
             }
         }
 
-        private void StartSelection()
+        private void StartSelection(IEnumerable<string> lines)
         {
-            IEnumerable<string> lines = File.ReadLines(path);
             IList<int> result = this.selector.Select(lines, bufferSize);
 
             this.doneSelectionLock.EnterWriteLock();
